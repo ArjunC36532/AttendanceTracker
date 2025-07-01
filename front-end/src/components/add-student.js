@@ -160,7 +160,7 @@ const AddStudent = ({ onClassAdded }) => {
             <p className="upload-hint">
               {formData.photo 
                 ? `Selected: ${formData.photo.name}` 
-                : 'Choose a clear photo of the student'
+                : 'Choose a clear photo of the student. JPEGs or JPGs only.'
               }
             </p>
           </div>

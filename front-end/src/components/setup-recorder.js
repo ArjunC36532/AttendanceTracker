@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Select, InputNumber } from 'antd';
 import axios from 'axios';
 import './setup-recorder.css';
+import { message } from 'antd';
 
 const { Option } = Select;
 
@@ -33,9 +34,27 @@ const SetupRecorder = ({ onSubmit }) => {
     e.preventDefault();
     console.log('Duration:', duration, 'Class:', class_name);
 
-    // Call the onSubmit callback with duration and class
+    // Call the onSubmit callback with duration and class only if clear embeddings is successful
     if (onSubmit && duration && class_name) {
-      onSubmit({ duration, class_name });
+      const response = await handleClearEmbeddings();
+      if (response) {
+        onSubmit({ duration, class_name });
+      } else {
+        message.error('Failed to clear embeddings, please try again.');
+      }
+    }
+  };
+
+  const handleClearEmbeddings = async () => {
+    const teacherId = localStorage.getItem('id');
+    try {
+      const response = await fetch(`http://localhost:8000/clear-embeddings?teacher_id=${teacherId}`);
+      const data = await response.json();
+      console.log('Clear embeddings response:', data);
+      return data;
+    } catch (error) {
+      console.error('Error clearing embeddings:', error);
+      return null;
     }
   };
 

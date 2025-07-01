@@ -9,6 +9,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Record from './record';
 import axios from 'axios';
+import StudentAttendanceData from '../components/student-attendance-data';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -71,10 +72,6 @@ function HomePage() {
     fetchSidebarData();
   }, []);
 
-  const handleMenuClick = ({ key }) => {
-    setSelectedKey(key);
-  };
-
   async function handleTopMenuClick(key){
     setSelectedTopKey(key);
     if (key === "logout"){
@@ -96,6 +93,8 @@ function HomePage() {
       return <AddStudent onClassAdded={fetchSidebarData}/>;
     } else if (selectedTopKey == "record"){
       return <Record/>
+    } else if (selectedTopKey == "classes"){
+      return <StudentAttendanceData data = {selectedKey}/>
     }
     // Default return if no matching key, or add other content rendering conditions
     return null;
@@ -123,7 +122,7 @@ function HomePage() {
             defaultOpenKeys={['class1']}
             style={{ height: '100%' }}
             items={items2}
-            onClick={handleMenuClick}
+            onClick={({ key }) => setSelectedKey(key)}
           />
         </Sider>
         <Content style={{ 

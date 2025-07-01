@@ -4,16 +4,20 @@ import { useFaceDetection } from 'react-use-face-detection';
 import { Button } from 'antd';
 import axios from 'axios'
 import './WebCamWindow.css';  // We'll create this file next
+import { message } from 'antd';
 
 const width = 800;
 const height = 800;
 
-function WebCamWindow({ onCancel, duration }) {
+function WebCamWindow({ onCancel, onSubmit, duration, class_name}) {
   const [timer, setTimer] = useState(5); // 5 second countdown
   const [totalTimeRemaining, setTotalTimeRemaining] = useState(duration * 60); // Total time in seconds
   const [faces, setFaces] = useState([]);
   const [isFlashing, setIsFlashing] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [capturedEmbeddings, setCapturedEmbeddings] = useState([]);
+  const [hasCompleted, setHasCompleted] = useState(false);
+  const embeddingsRef = useRef([]); // Ref to track embeddings
   const boundingBoxRef = useRef();
   const webcamRefRef = useRef();
   const shutterSound = useRef(new Audio('/audio/shutter.mp3')); 
@@ -68,11 +72,11 @@ function WebCamWindow({ onCancel, duration }) {
         // Convert to blob and upload immediately
         canvas.toBlob(async (blob) => {
           const formData = new FormData();
+          formData.append("teacher_id", localStorage.getItem('id'));
           formData.append('file', blob, `face_${index}.png`);
           
           try {
             const response = await axios.post('http://localhost:8000/uploadfile/', formData);
-            console.log(`Face ${index} uploaded:`, response.data);
           } catch (error) {
             console.error(`Face ${index} failed:`, error);
           }
@@ -81,16 +85,19 @@ function WebCamWindow({ onCancel, duration }) {
     }
   }
 
-  function decrementTimer(){
+  async function decrementTimer(){
     setTimer(prevTimer => {
       if (prevTimer <= 0) {
         // Take photo and reset 5-second countdown
         generateCutouts();
         setTotalTimeRemaining(prevTotal => {
           const newTotal = prevTotal - 5;
-          if (newTotal <= 0) {
+          if (newTotal <= 0 && !hasCompleted) {
             // Recording is complete
             setIsRecording(false);
+            setHasCompleted(true);
+            // Call separate function to handle completion
+            handleRecordingComplete();
             return 0;
           }
           return newTotal;
@@ -101,6 +108,20 @@ function WebCamWindow({ onCancel, duration }) {
       }
     });
   }
+
+  const handleRecordingComplete = async () => {
+    try {
+      const teacher_id = localStorage.getItem("id");
+      const { data } = await axios.get(`http://localhost:8000/find-matches?teacher_id=${teacher_id}&class_name=${class_name}`);
+      if (!data) {
+        message.error('No data found.');
+        return;
+      }
+      onSubmit(data);
+    } catch (error) {
+      message.error("Error fetching results from backend")
+    }
+  };
 
   useEffect(() => {
     if (isRecording) {

@@ -6,6 +6,7 @@ from PIL import Image
 import io
 from fastapi import HTTPException
 import supabase
+import torch.nn.functional
 
 
 class FaceDetection:
@@ -27,7 +28,5 @@ class FaceDetection:
 
         return img_embedding
     
-    def find_matches(self):
-        pass
 
 
