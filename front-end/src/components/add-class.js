@@ -17,7 +17,7 @@ const AddClass = ({ onClassAdded }) => {
     }
     
     try {
-      const response = await axios.post('http://localhost:8000/add-class', {
+      const response = await axios.post('https://tplinux.taile388eb.ts.net/add-class', {
         teacher_id: parseInt(id),
         class_name: className,
       });

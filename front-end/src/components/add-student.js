@@ -17,7 +17,7 @@ const AddStudent = ({ onClassAdded }) => {
 
   useEffect(() => {
     const id = localStorage.getItem('id');
-    axios.get(`http://localhost:8000/get-classes?teacher_id=${id}`)
+    axios.get(`https://tplinux.taile388eb.ts.net/get-classes?teacher_id=${id}`)
     .then(response => {
         setClasses(response.data)
     }).catch(error => {
@@ -74,7 +74,7 @@ const AddStudent = ({ onClassAdded }) => {
         console.log(pair[0] + ', ' + pair[1]);
       }
 
-      const response = await axios.post('http://localhost:8000/add-student', formDataToSend, {
+      const response = await axios.post('https://tplinux.taile388eb.ts.net/add-student', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -39,7 +39,7 @@ const LoginPage = () => {
 
       // Make Axios request to get user ID
       try {
-        const userIdResponse = await axios.get(`http://localhost:8000/get-user-id?email=${encodeURIComponent(userCredential.user.email)}`);
+        const userIdResponse = await axios.get(`https://tplinux.taile388eb.ts.net/get-user-id?email=${encodeURIComponent(userCredential.user.email)}`);
         console.log('User ID from backend:', userIdResponse.data.user_id);
         
         if (userIdResponse.data && userIdResponse.data.user_id) {

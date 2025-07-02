@@ -13,7 +13,7 @@ const SetupRecorder = ({ onSubmit }) => {
 
   useEffect(() => {
     const id = localStorage.getItem('id');
-    axios.get(`http://localhost:8000/get-classes?teacher_id=${id}`)
+    axios.get(`https://tplinux.taile388eb.ts.net/get-classes?teacher_id=${id}`)
       .then(response => {
         setClasses(response.data);
       })
@@ -48,7 +48,7 @@ const SetupRecorder = ({ onSubmit }) => {
   const handleClearEmbeddings = async () => {
     const teacherId = localStorage.getItem('id');
     try {
-      const response = await fetch(`http://localhost:8000/clear-embeddings?teacher_id=${teacherId}`);
+      const response = await fetch(`https://tplinux.taile388eb.ts.net/clear-embeddings?teacher_id=${teacherId}`);
       const data = await response.json();
       console.log('Clear embeddings response:', data);
       return data;

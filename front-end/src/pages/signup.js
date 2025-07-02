@@ -63,7 +63,7 @@ const SignupPage = () => {
       };
 
       // Call backend to add user (teacher) to database
-      const backendResponse = await axios.post('http://localhost:8000/add-user', teacherData); // Assuming your backend runs on port 8000
+      const backendResponse = await axios.post('https://tplinux.taile388eb.ts.net/add-user', teacherData); // Assuming your backend runs on port 8000
       console.log('Backend response:', backendResponse.data);
 
       // Successful signup
