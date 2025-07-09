@@ -34,7 +34,7 @@ const StudentAttendanceData = ({ data }) => {
   const handleRemoveStudent = async () => {
     const teacher_id = localStorage.getItem('id');
     try {
-      const response = await axios.get(`https://tplinux.taile388eb.ts.net/remove-student?teacher_id=${teacher_id}&class_name=${className}&student_name=${studentName}`);
+      const response = await axios.get(`http://localhost:8000/remove-student?teacher_id=${teacher_id}&class_name=${className}&student_name=${studentName}`);
       console.log(response.data);
       window.location.reload();
     } catch (error) {
@@ -47,7 +47,7 @@ const StudentAttendanceData = ({ data }) => {
     console.log(teacher_id)
     console.log(className)
     try{
-      const response = await axios.get(`https://tplinux.taile388eb.ts.net/remove-class?teacher_id=${teacher_id}&class_name=${className}`);
+      const response = await axios.get(`http://localhost:8000/remove-class?teacher_id=${teacher_id}&class_name=${className}`);
       console.log(response.data)
       window.location.reload();
     } catch(error){
@@ -61,7 +61,7 @@ const StudentAttendanceData = ({ data }) => {
       try {
         const displayName = studentName === "all" ? "All Students" : studentName;
         setDisplayName(displayName)
-        const response = await axios.get(`https://tplinux.taile388eb.ts.net/get-table?class_name=${className}&student_name=${studentName}&teacher_id=${teacher_id}`)
+        const response = await axios.get(`http://localhost:8000/get-table?class_name=${className}&student_name=${studentName}&teacher_id=${teacher_id}`)
         console.log(response.data);
         setDataSource(response.data)
       } catch (error) {

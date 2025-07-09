@@ -76,7 +76,7 @@ function WebCamWindow({ onCancel, onSubmit, duration, class_name}) {
           formData.append('file', blob, `face_${index}.png`);
           
           try {
-            const response = await axios.post('https://tplinux.taile388eb.ts.net/uploadfile/', formData);
+            const response = await axios.post('http://localhost:8000/uploadfile/', formData);
           } catch (error) {
             console.error(`Face ${index} failed:`, error);
           }
@@ -112,7 +112,7 @@ function WebCamWindow({ onCancel, onSubmit, duration, class_name}) {
   const handleRecordingComplete = async () => {
     try {
       const teacher_id = localStorage.getItem("id");
-      const { data } = await axios.get(`https://tplinux.taile388eb.ts.net/find-matches?teacher_id=${teacher_id}&class_name=${class_name}`);
+      const { data } = await axios.get(`http://localhost:8000/find-matches?teacher_id=${teacher_id}&class_name=${class_name}`);
       if (!data) {
         message.error('No data found.');
         return;

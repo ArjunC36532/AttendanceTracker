@@ -55,7 +55,7 @@ function HomePage() {
 
   const fetchSidebarData = () => {
     const teacherId = localStorage.getItem('id');
-    axios.get(`https://tplinux.taile388eb.ts.net/get-side-bar?teacher_id=${teacherId}`)
+    axios.get(`http://localhost:8000/get-side-bar?teacher_id=${teacherId}`)
       .then(response => {
         for(const class_data of response.data){
           class_data["icon"] = React.createElement(TeamOutlined)

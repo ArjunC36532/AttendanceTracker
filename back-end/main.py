@@ -13,6 +13,7 @@ import json
 import torch
 import torch.nn.functional as F
 from datetime import datetime
+import uvicorn
 
 #backend
 
@@ -39,8 +40,8 @@ class WebcamData(TypedDict):
     embeddings: list
 
 
-URL = os.environ.get("URL")
-KEY = os.environ.get("KEY")
+URL =  "https://ljppyrfxtiicczfdcdjy.supabase.co"
+KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqcHB5cmZ4dGlpY2N6ZmRjZGp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NDc4NzIsImV4cCI6MjA2NTQyMzg3Mn0.oagS27FMAsVKMrT_k3N3RGemGlBdS0lXPdL_-ORQ-wo"
 
 app = FastAPI()
 faceDetection = FaceDetection()
@@ -49,7 +50,7 @@ client = create_client(URL, KEY)
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["https://attendance-tracker-backend-production.up.railway.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -335,6 +336,7 @@ def remove_class(teacher_id: str, class_name: str):
     except Exception as e:
         return {"error": str(e)}
     
+
 
 
 
